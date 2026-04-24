@@ -15,6 +15,11 @@ export default async function MarketingPage() {
   const snapshot = await loadCohortSnapshot();
   const topAlerts = snapshot.alerts.slice(0, 3);
   const featuredCompanies = snapshot.companies.slice(0, 6);
+  const marketingStatus = snapshot.meta.usedFallback
+    ? "Showing bundled sample data while live providers recover."
+    : snapshot.meta.source === "database"
+      ? "Persisted snapshot loaded from Neon."
+      : "Live public job-board data loaded.";
   const operatingLenses = [
     {
       title: "Expansion monitoring",
@@ -138,7 +143,7 @@ export default async function MarketingPage() {
                 </div>
               </div>
               <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-300">
-                {snapshot.meta.notices[0] ?? "Live public job-board data loaded."}
+                {marketingStatus}
               </div>
             </div>
           </div>

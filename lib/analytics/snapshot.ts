@@ -64,6 +64,25 @@ function useStoredSummary(filters: DashboardFilters) {
   return filters.roleFamily === "All" && !filters.location && !filters.remoteOnly && !filters.aiOnly;
 }
 
+function buildLiveNotices(errors: Array<{ companySlug: string; error: string }>) {
+  if (!errors.length) {
+    return ["Loaded live public job-board data."];
+  }
+
+  const unavailableCompanies = errors
+    .map((error) => companyConfig.find((company) => company.slug === error.companySlug)?.name ?? error.companySlug)
+    .slice(0, 3);
+  const overflowCount = errors.length - unavailableCompanies.length;
+  const unavailableLabel = overflowCount > 0
+    ? `${unavailableCompanies.join(", ")} + ${overflowCount} more`
+    : unavailableCompanies.join(", ");
+
+  return [
+    `Loaded live public job-board data with ${errors.length} provider ${errors.length === 1 ? "issue" : "issues"}.`,
+    `Unavailable during the latest refresh: ${unavailableLabel}.`
+  ];
+}
+
 function buildCompanyView(
   company: CompanySeed,
   jobs: CanonicalJob[],
@@ -309,9 +328,7 @@ async function loadLiveRecords() {
       generatedAt: new Date().toISOString(),
       freshnessMinutes: 0,
       usedFallback: false,
-      notices: errors.length
-        ? errors.map((error) => `Could not refresh ${error.companySlug}: ${error.error}`)
-        : ["Loaded live public job-board data."]
+      notices: buildLiveNotices(errors)
     }
   };
 }
