@@ -2,6 +2,10 @@
 
 TalentFlux is a public competitor hiring intelligence dashboard for AI and software companies. It ingests live public job-board data from Greenhouse and Lever, stores historical snapshots in Postgres, computes strategy signals like AI hiring share and geographic expansion, and presents them in a polished Next.js dashboard.
 
+- **Live dashboard:** https://talentpulse-psi.vercel.app
+- **One-page summary:** [docs/one-page-summary.md](docs/one-page-summary.md)
+- **Methodology:** [docs/methodology.md](docs/methodology.md)
+
 ## Features
 
 - Live and near-real-time competitor job tracking
