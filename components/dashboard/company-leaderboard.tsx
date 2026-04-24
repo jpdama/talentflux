@@ -1,42 +1,51 @@
 import Link from "next/link";
+import { ChevronRight, TrendingUp } from "lucide-react";
 
 import { CompanySparkline } from "@/components/charts/company-sparkline";
-import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { SectionHeading } from "@/components/ui/section-heading";
 import type { CompanySnapshot } from "@/lib/types";
 
 export function CompanyLeaderboard({ companies }: { companies: CompanySnapshot[] }) {
   return (
-    <Card className="space-y-5">
-      <div className="flex items-center justify-between">
-        <div>
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-300">Leaderboard</div>
-          <h3 className="mt-2 text-xl font-semibold text-white">Momentum ranking</h3>
-        </div>
-        <Badge>{companies.length} companies</Badge>
-      </div>
-      <div className="space-y-4">
+    <Card className="space-y-4">
+      <SectionHeading
+        eyebrow="Leaderboard"
+        title="Momentum ranking"
+        description="Highest-signal companies in the filtered cohort."
+        size="md"
+      />
+      <div className="divide-y divide-border rounded-lg border border-border">
         {companies.map((company, index) => (
           <Link
             key={company.company.slug}
             href={`/companies/${company.company.slug}`}
-            className="flex flex-col gap-4 rounded-2xl border border-white/8 bg-white/[0.03] p-4 transition hover:border-cyan-300/25 hover:bg-white/[0.06] md:flex-row md:items-center md:justify-between"
+            className="group flex items-center gap-4 px-3 py-3 transition-colors hover:bg-surface-raised/60"
           >
-            <div className="flex items-center gap-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/5 text-sm text-slate-200">
-                {String(index + 1).padStart(2, "0")}
-              </div>
-              <div>
-                <div className="font-medium text-white">{company.company.name}</div>
-                <div className="text-sm text-slate-400">{company.company.sector}</div>
-              </div>
+            <div className="numeric flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-surface-raised text-xs font-semibold text-muted-strong">
+              {index + 1}
             </div>
-            <div className="flex items-center gap-4">
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-sm font-medium text-foreground">{company.company.name}</div>
+              <div className="truncate text-xs text-muted">{company.company.sector}</div>
+            </div>
+            <div className="hidden md:block">
               <CompanySparkline data={company.history} />
+            </div>
+            <div className="flex items-center gap-3">
               <div className="text-right">
-                <div className="text-lg font-semibold text-white">{company.metrics.momentumScore}</div>
-                <div className="text-xs uppercase tracking-[0.18em] text-slate-500">Momentum</div>
+                <div className="numeric inline-flex items-center gap-1 text-base font-semibold text-foreground">
+                  <TrendingUp className="h-3.5 w-3.5 text-primary" />
+                  {Math.round(company.metrics.momentumScore)}
+                </div>
+                <div className="text-[11px] text-muted">
+                  {company.metrics.openJobs} open
+                </div>
               </div>
+              <ChevronRight
+                className="h-4 w-4 text-muted/60 transition-transform group-hover:translate-x-0.5 group-hover:text-muted"
+                aria-hidden
+              />
             </div>
           </Link>
         ))}

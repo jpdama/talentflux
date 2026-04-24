@@ -1,59 +1,86 @@
+import type { Metadata } from "next";
+import { AlertTriangle, Brain, Calculator, Database, Scale } from "lucide-react";
+
 import { Card } from "@/components/ui/card";
 import { SectionHeading } from "@/components/ui/section-heading";
 
-const sections = [
+export const metadata: Metadata = {
+  title: "Methodology"
+};
+
+const SECTIONS = [
   {
+    icon: Database,
     title: "Data sources",
-    body: "TalentFlux uses public Greenhouse Job Board and Lever Postings APIs. No gated or paid enterprise data is required for the core product. Historical context is created through repeated snapshot ingestion into Postgres."
+    body: "Public Greenhouse Job Board and Lever Postings APIs. No gated or paid data. Historical context is built by repeated snapshot ingestion into Postgres."
   },
   {
+    icon: Scale,
     title: "Normalization",
-    body: "Each role is normalized into a canonical schema, including role family, seniority, workplace type, location, and extracted skills. This lets the dashboard compare companies consistently even when job-board metadata is uneven."
+    body: "Each role is normalized into a canonical schema — role family, seniority, workplace type, location, skills. Consistent comparison across uneven metadata."
   },
   {
+    icon: Calculator,
     title: "Momentum score",
-    body: "Momentum blends recent net-new hiring, AI-share change, GTM-share change, location expansion, and leadership-share change. The score is normalized to 0-100 and penalizes over-concentration in a single function."
+    body: "Blends net-new hiring, AI-share change, GTM-share change, location expansion, and leadership share. Normalized 0–100, penalizing over-concentration."
   },
   {
+    icon: AlertTriangle,
     title: "Alerts",
-    body: "Alert cards fire only when computed thresholds are crossed. Examples include AI Buildout, GTM Expansion, Geo Expansion, Leadership Hiring, Hiring Cooldown, and Concentration Risk."
+    body: "Fire only when computed thresholds are crossed. Examples: AI Buildout, GTM Expansion, Geo Expansion, Leadership Hiring, Hiring Cooldown, Concentration Risk."
   },
   {
+    icon: Brain,
     title: "AI summaries",
-    body: "The AI layer only receives computed metrics and alert evidence. The UI validates the response against a schema and falls back to deterministic summaries if the model or network is unavailable."
+    body: "The AI layer only receives computed metrics and alert evidence. The UI validates output against a schema and falls back to deterministic summaries on failure."
   }
 ];
 
 export default function MethodologyPage() {
   return (
     <div className="shell space-y-10 py-10">
-      <SectionHeading
-        eyebrow="Methodology"
-        title="How TalentFlux turns public jobs into business intelligence"
-        description="The point of the product is not to mirror a job board. It is to convert public hiring activity into an explainable strategy readout."
-      />
-      <div className="grid gap-6 lg:grid-cols-2">
-        {sections.map((section) => (
-          <Card key={section.title} className="space-y-3">
-            <h2 className="text-xl font-semibold text-white">{section.title}</h2>
-            <p className="text-sm leading-7 text-slate-300">{section.body}</p>
+      <div className="max-w-2xl space-y-3">
+        <div className="eyebrow">Methodology</div>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+          Public jobs, turned into explainable intelligence.
+        </h1>
+        <p className="text-base leading-7 text-muted-strong">
+          The goal isn't to mirror a job board. It's to convert public hiring activity into an operating readout that a
+          strategy, GTM, or investment team can actually use.
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {SECTIONS.map(({ icon: Icon, title, body }) => (
+          <Card key={title} className="space-y-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
+              <Icon className="h-4 w-4" />
+            </div>
+            <h2 className="text-base font-semibold text-foreground">{title}</h2>
+            <p className="text-sm leading-6 text-muted-strong">{body}</p>
           </Card>
         ))}
       </div>
+
       <Card className="space-y-4">
-        <h2 className="text-xl font-semibold text-white">Scoring formula</h2>
-        <pre className="overflow-x-auto rounded-2xl border border-white/10 bg-slate-950/70 p-5 text-sm text-slate-200">
+        <SectionHeading
+          eyebrow="Formula"
+          title="Momentum scoring"
+          description="Every component traces back to computed metrics — no black boxes."
+          size="md"
+        />
+        <pre className="overflow-x-auto rounded-lg border border-border bg-surface-raised/80 p-4 font-mono text-xs leading-6 text-muted-strong">
 {`Momentum Score =
-0.35 * net_new_z
-+ 0.20 * ai_share_delta
-+ 0.15 * gtm_share_delta
-+ 0.15 * new_location_z
-+ 0.15 * leadership_share_delta
-- concentration_penalty`}
+  0.35 × net_new_z
++ 0.20 × ai_share_delta
++ 0.15 × gtm_share_delta
++ 0.15 × new_location_z
++ 0.15 × leadership_share_delta
+− concentration_penalty`}
         </pre>
-        <p className="text-sm leading-7 text-slate-300">
+        <p className="text-sm leading-6 text-muted-strong">
           Forecasting uses a simple linear regression over the most recent visible history. When a company lacks enough
-          historical points, TalentFlux suppresses precision claims and falls back to a conservative estimate.
+          points, precision is suppressed and the system falls back to a conservative estimate.
         </p>
       </Card>
     </div>

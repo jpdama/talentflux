@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 import { env } from "@/lib/validations/env";
 import { hasDatabase } from "@/db/client";
@@ -15,6 +16,17 @@ function getRefreshStore() {
   return global.__talentfluxRefresh;
 }
 
+function invalidate() {
+  (globalThis as { __talentfluxLiveCache?: unknown }).__talentfluxLiveCache = undefined;
+  try {
+    revalidatePath("/");
+    revalidatePath("/dashboard");
+    revalidatePath("/companies/[slug]", "page");
+  } catch {
+    // revalidatePath is best-effort; ignore errors in test contexts
+  }
+}
+
 export async function POST() {
   const store = getRefreshStore();
   const now = Date.now();
@@ -24,24 +36,26 @@ export async function POST() {
     const minutesRemaining = Math.ceil((interval - (now - store.lastRunAt)) / 60000);
     return NextResponse.json({
       ok: false,
-      message: `Refresh window active. Try again in ${minutesRemaining} minute(s).`
+      message: `Cooldown active — try again in ${minutesRemaining} minute${minutesRemaining === 1 ? "" : "s"}.`
     });
   }
 
   if (!hasDatabase()) {
     store.lastRunAt = now;
+    invalidate();
     return NextResponse.json({
       ok: true,
-      message: "No database configured, so the dashboard will continue using live or sample reads on page load."
+      message: "Refreshed live cache. Page reload will re-fetch providers."
     });
   }
 
   try {
     store.lastRunAt = now;
     await runIngest();
+    invalidate();
     return NextResponse.json({
       ok: true,
-      message: "Refresh completed. Reloading dashboard."
+      message: "Ingest complete — reloading dashboard."
     });
   } catch (error) {
     return NextResponse.json(

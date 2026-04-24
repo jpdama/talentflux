@@ -12,18 +12,16 @@ const config: Config = {
     extend: {
       colors: {
         background: "hsl(var(--background))",
+        surface: "hsl(var(--surface))",
+        "surface-raised": "hsl(var(--surface-raised))",
         foreground: "hsl(var(--foreground))",
-        card: "hsl(var(--card))",
-        cardForeground: "hsl(var(--card-foreground))",
         border: "hsl(var(--border))",
+        "border-strong": "hsl(var(--border-strong))",
         muted: "hsl(var(--muted))",
-        mutedForeground: "hsl(var(--muted-foreground))",
+        "muted-strong": "hsl(var(--muted-strong))",
         primary: "hsl(var(--primary))",
         primaryForeground: "hsl(var(--primary-foreground))",
-        secondary: "hsl(var(--secondary))",
-        secondaryForeground: "hsl(var(--secondary-foreground))",
         accent: "hsl(var(--accent))",
-        accentForeground: "hsl(var(--accent-foreground))",
         success: "hsl(var(--success))",
         warning: "hsl(var(--warning))",
         danger: "hsl(var(--danger))"
@@ -33,29 +31,31 @@ const config: Config = {
         mono: ["var(--font-mono)"]
       },
       borderRadius: {
-        xl: "1.25rem",
-        "2xl": "1.75rem"
+        lg: "0.625rem",
+        xl: "0.875rem",
+        "2xl": "1.125rem"
       },
       boxShadow: {
-        panel: "0 24px 80px rgba(8, 15, 40, 0.12)",
-        glow: "0 0 0 1px rgba(255,255,255,0.05), 0 32px 80px rgba(34, 211, 238, 0.08)"
+        panel: "0 1px 0 hsl(var(--border-strong) / 0.6), 0 20px 48px -24px rgb(0 0 0 / 0.5)",
+        ring: "0 0 0 1px hsl(var(--primary) / 0.35), 0 0 0 4px hsl(var(--primary) / 0.12)",
+        glow: "0 0 0 1px hsl(var(--primary) / 0.18), 0 24px 64px -32px hsl(var(--primary) / 0.35)"
       },
       backgroundImage: {
-        "hero-grid":
-          "radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 38%), linear-gradient(135deg, rgba(34,211,238,0.08), transparent 48%), linear-gradient(180deg, rgba(253,186,116,0.08), transparent 36%)"
+        "grid-fade":
+          "radial-gradient(ellipse at top, hsl(var(--primary) / 0.12), transparent 60%)"
       },
       animation: {
-        float: "float 8s ease-in-out infinite",
-        pulseSlow: "pulseSlow 6s ease-in-out infinite"
+        "fade-in": "fadeIn 0.3s ease-out",
+        "slide-up": "slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)"
       },
       keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-10px)" }
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" }
         },
-        pulseSlow: {
-          "0%, 100%": { opacity: "0.7" },
-          "50%": { opacity: "1" }
+        slideUp: {
+          "0%": { opacity: "0", transform: "translateY(8px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" }
         }
       }
     }

@@ -53,8 +53,12 @@ export function parseLeverJobs(company: CompanySeed, payload: LeverPosting[]): C
   });
 }
 
-export async function fetchLeverJobs(company: CompanySeed) {
+export async function fetchLeverJobs(company: CompanySeed, signal?: AbortSignal) {
   const url = `https://api.lever.co/v0/postings/${company.providerToken}?mode=json`;
-  const payload = await fetchJson<LeverPosting[]>(url, undefined, { retries: 2, timeoutMs: 12000 });
+  const payload = await fetchJson<LeverPosting[]>(
+    url,
+    signal ? { signal } : undefined,
+    { retries: 1, timeoutMs: 6000 }
+  );
   return parseLeverJobs(company, payload);
 }
