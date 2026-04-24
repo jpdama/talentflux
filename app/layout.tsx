@@ -1,13 +1,35 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Inter, JetBrains_Mono } from "next/font/google";
 
 import "@/app/globals.css";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display"
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono"
+});
+
 export const metadata: Metadata = {
-  title: "TalentFlux",
-  description: "Public hiring intelligence and competitor momentum tracking for AI and software teams."
+  title: {
+    default: "TalentFlux — Hiring intelligence for AI & software teams",
+    template: "%s · TalentFlux"
+  },
+  description:
+    "Public hiring signals turned into momentum scores, AI-share shifts, and expansion alerts for strategy, GTM, and recruiting teams.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  openGraph: {
+    title: "TalentFlux",
+    description: "Competitor hiring intelligence for AI and software teams.",
+    type: "website"
+  }
 };
 
 export default function RootLayout({
@@ -16,19 +38,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans">
-        <div className="relative min-h-screen overflow-x-hidden">
-          <div className="pointer-events-none absolute inset-0 grid-overlay opacity-30" />
+    <html lang="en" className={`${inter.variable} ${mono.variable}`}>
+      <body className="min-h-screen font-sans">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-3 focus:py-2 focus:text-sm focus:font-medium focus:text-primaryForeground"
+        >
+          Skip to content
+        </a>
+        <div className="relative flex min-h-screen flex-col">
           <SiteHeader />
-          <main>{children}</main>
+          <main id="main" className="flex-1">
+            {children}
+          </main>
           <SiteFooter />
-          <div className="fixed bottom-5 right-5 hidden rounded-full border border-white/10 bg-slate-950/70 px-3 py-2 text-xs text-slate-300 backdrop-blur md:flex">
-            Live intelligence by{" "}
-            <Link className="ml-1 text-cyan-300 hover:text-cyan-200" href="/dashboard">
-              TalentFlux
-            </Link>
-          </div>
         </div>
       </body>
     </html>

@@ -1,22 +1,20 @@
 :root {
-  --background: 220 31% 10%;
-  --foreground: 210 40% 98%;
-  --card: 222 32% 14%;
-  --card-foreground: 210 40% 98%;
-  --border: 220 20% 25%;
-  --muted: 220 23% 18%;
-  --muted-foreground: 215 20% 72%;
-  --primary: 188 92% 53%;
-  --primary-foreground: 220 35% 10%;
-  --secondary: 31 97% 72%;
-  --secondary-foreground: 220 35% 10%;
-  --accent: 258 80% 68%;
-  --accent-foreground: 220 35% 10%;
-  --success: 145 63% 49%;
-  --warning: 39 96% 58%;
-  --danger: 358 82% 65%;
-  --font-display: "Avenir Next", "Satoshi", "Helvetica Neue", "Segoe UI", sans-serif;
-  --font-mono: "SFMono-Regular", "IBM Plex Mono", "Menlo", "Monaco", monospace;
+  --background: 222 32% 6%;
+  --surface: 222 28% 9%;
+  --surface-raised: 222 24% 12%;
+  --foreground: 210 30% 98%;
+  --muted: 218 16% 62%;
+  --muted-strong: 218 20% 78%;
+  --border: 218 18% 18%;
+  --border-strong: 218 18% 26%;
+  --primary: 178 88% 55%;
+  --primary-foreground: 222 32% 8%;
+  --accent: 265 80% 72%;
+  --success: 152 62% 48%;
+  --warning: 38 96% 60%;
+  --danger: 354 80% 62%;
+  --font-display: "Inter", "SF Pro Display", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", "IBM Plex Mono", "Menlo", monospace;
 }
 
 @tailwind base;
@@ -25,20 +23,24 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
   @apply bg-background text-foreground antialiased;
   background-image:
-    radial-gradient(circle at 20% 0%, rgba(34, 211, 238, 0.12), transparent 30%),
-    radial-gradient(circle at 80% 10%, rgba(249, 115, 22, 0.1), transparent 28%),
-    linear-gradient(180deg, rgba(10, 15, 31, 0.96), rgba(7, 10, 23, 1));
+    radial-gradient(1000px 500px at 15% -10%, hsl(var(--primary) / 0.08), transparent 60%),
+    radial-gradient(800px 400px at 90% 0%, hsl(var(--accent) / 0.06), transparent 55%),
+    linear-gradient(180deg, hsl(222 32% 6%), hsl(222 34% 4%));
+  background-attachment: fixed;
   min-height: 100vh;
   font-family: var(--font-display);
+  font-feature-settings: "cv02", "cv03", "cv04", "ss01";
 }
 
 ::selection {
-  background: rgba(34, 211, 238, 0.35);
+  background: hsl(var(--primary) / 0.35);
+  color: hsl(var(--foreground));
 }
 
 @layer base {
@@ -51,10 +53,26 @@ body {
   h3,
   h4 {
     @apply tracking-tight text-balance;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    letter-spacing: -0.035em;
   }
 
   p {
     @apply text-pretty;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
+    border-radius: 8px;
   }
 }
 
@@ -63,18 +81,112 @@ body {
     @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
   }
 
+  .surface {
+    @apply rounded-xl border border-border bg-surface;
+  }
+
+  .surface-raised {
+    @apply rounded-xl border border-border bg-surface-raised;
+  }
+
   .panel {
-    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-panel;
+    @apply rounded-xl border border-border bg-surface/80 backdrop-blur-sm;
   }
 
-  .panel-glow {
-    @apply rounded-2xl border border-cyan-300/20 bg-slate-950/70 shadow-glow;
+  .panel-elevated {
+    @apply rounded-xl border border-border bg-surface shadow-panel;
   }
 
-  .grid-overlay {
-    background-image:
-      linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
-    background-size: 28px 28px;
+  .divider {
+    @apply h-px w-full bg-border;
   }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-muted;
+  }
+
+  .dot-pulse {
+    position: relative;
+    display: inline-flex;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: hsl(var(--success));
+  }
+
+  .dot-pulse::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    border: 1px solid hsl(var(--success));
+    animation: dot-pulse 1.8s ease-out infinite;
+    opacity: 0;
+  }
+
+  .dot-pulse[data-state="warning"] {
+    background: hsl(var(--warning));
+  }
+  .dot-pulse[data-state="warning"]::after {
+    border-color: hsl(var(--warning));
+  }
+  .dot-pulse[data-state="muted"] {
+    background: hsl(var(--muted));
+  }
+  .dot-pulse[data-state="muted"]::after {
+    border-color: hsl(var(--muted));
+  }
+}
+
+@keyframes dot-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--surface-raised)) 0%,
+    hsl(var(--border)) 50%,
+    hsl(var(--surface-raised)) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+/* Tabular numerals for figures */
+.numeric {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Custom scrollbar for tables */
+.nice-scroll::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.nice-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: hsl(var(--border-strong));
+  border-radius: 999px;
+}
+.nice-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted) / 0.4);
 }

@@ -1,6 +1,6 @@
-import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react";
+import { ArrowDown, ArrowUp, Minus } from "lucide-react";
 
-import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils/cn";
 
 export function StatCard({
   label,
@@ -17,26 +17,26 @@ export function StatCard({
   const negative = typeof delta === "number" && delta < 0;
 
   return (
-    <Card className="space-y-4">
-      <div className="text-sm text-slate-400">{label}</div>
-      <div className="flex items-end justify-between gap-4">
-        <div className="text-3xl font-semibold text-white">{value}</div>
+    <div className="surface group relative overflow-hidden p-5 transition-colors hover:border-border-strong">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-xs font-medium text-muted">{label}</span>
         {typeof delta === "number" ? (
-          <div
-            className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs ${
-              positive
-                ? "bg-emerald-400/10 text-emerald-200"
-                : negative
-                  ? "bg-rose-500/10 text-rose-100"
-                  : "bg-white/5 text-slate-300"
-            }`}
+          <span
+            className={cn(
+              "inline-flex items-center gap-0.5 rounded-md px-1.5 py-0.5 text-[11px] font-medium tabular-nums",
+              positive && "bg-success/10 text-success",
+              negative && "bg-danger/10 text-danger",
+              !positive && !negative && "bg-surface-raised text-muted"
+            )}
+            aria-label={`Change: ${delta}`}
           >
-            {positive ? <ArrowUpRight className="h-3.5 w-3.5" /> : negative ? <ArrowDownRight className="h-3.5 w-3.5" /> : <Minus className="h-3.5 w-3.5" />}
+            {positive ? <ArrowUp className="h-3 w-3" /> : negative ? <ArrowDown className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
             {Math.abs(delta)}
-          </div>
+          </span>
         ) : null}
       </div>
-      <div className="text-sm leading-6 text-slate-400">{detail}</div>
-    </Card>
+      <div className="mt-3 numeric text-3xl font-semibold tracking-tight text-foreground">{value}</div>
+      <div className="mt-1.5 text-xs leading-5 text-muted">{detail}</div>
+    </div>
   );
 }

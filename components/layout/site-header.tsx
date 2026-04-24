@@ -1,33 +1,47 @@
 import Link from "next/link";
+import type { Route } from "next";
 
 import { Button } from "@/components/ui/button";
 
+const NAV: Array<{ href: Route; label: string }> = [
+  { href: "/dashboard" as Route, label: "Dashboard" },
+  { href: "/methodology" as Route, label: "Methodology" }
+];
+
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/8 bg-slate-950/65 backdrop-blur-xl">
-      <div className="shell flex h-16 items-center justify-between gap-6">
-        <Link href="/" className="flex items-center gap-3 text-sm text-slate-100">
-          <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 via-sky-400 to-orange-300 font-semibold text-slate-950">
+    <header className="sticky top-0 z-40 border-b border-border/80 bg-background/80 backdrop-blur-xl">
+      <div className="shell flex h-14 items-center justify-between gap-6">
+        <Link href="/" className="group flex items-center gap-2.5">
+          <div
+            aria-hidden
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent font-mono text-xs font-bold text-primaryForeground shadow-sm transition-transform group-hover:scale-105"
+          >
             TF
           </div>
-          <div>
-            <div className="font-semibold tracking-wide">TalentFlux</div>
-            <div className="text-xs text-slate-400">Hiring intelligence for AI and software</div>
+          <div className="flex items-baseline gap-2">
+            <span className="text-sm font-semibold tracking-tight text-foreground">TalentFlux</span>
+            <span className="hidden text-xs text-muted md:inline">hiring intelligence</span>
           </div>
         </Link>
 
-        <nav className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
-          <Link href="/dashboard" className="transition hover:text-white">
-            Dashboard
-          </Link>
-          <Link href="/methodology" className="transition hover:text-white">
-            Methodology
-          </Link>
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+          {NAV.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="rounded-md px-3 py-1.5 text-sm text-muted-strong transition-colors hover:bg-surface-raised hover:text-foreground"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
-        <Button asChild variant="secondary" size="sm">
-          <Link href="/dashboard">Launch Dashboard</Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button asChild variant="primary" size="sm">
+            <Link href="/dashboard">Open dashboard</Link>
+          </Button>
+        </div>
       </div>
     </header>
   );

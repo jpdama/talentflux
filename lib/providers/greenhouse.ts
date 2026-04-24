@@ -51,8 +51,12 @@ export function parseGreenhouseJobs(company: CompanySeed, payload: GreenhouseJob
   });
 }
 
-export async function fetchGreenhouseJobs(company: CompanySeed) {
+export async function fetchGreenhouseJobs(company: CompanySeed, signal?: AbortSignal) {
   const url = `https://boards-api.greenhouse.io/v1/boards/${company.providerToken}/jobs?content=true`;
-  const payload = await fetchJson<GreenhouseJobResponse>(url, undefined, { retries: 2, timeoutMs: 12000 });
+  const payload = await fetchJson<GreenhouseJobResponse>(
+    url,
+    signal ? { signal } : undefined,
+    { retries: 1, timeoutMs: 6000 }
+  );
   return parseGreenhouseJobs(company, payload);
 }

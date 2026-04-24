@@ -314,9 +314,27 @@ async function loadDatabaseRecords() {
   }
 }
 
-async function loadLiveRecords() {
-  const { jobs, errors } = await fetchManyCompanies(companyConfig.filter((company) => company.isActive));
+declare global {
+  var __talentfluxLiveCache:
+    | {
+        expiresAt: number;
+        payload: Awaited<ReturnType<typeof runLiveFetch>> | null;
+      }
+    | undefined;
+}
+
+const LIVE_CACHE_TTL_MS = 5 * 60 * 1000;
+
+async function runLiveFetch() {
+  const { jobs, errors, budgetExceeded } = await fetchManyCompanies(
+    companyConfig.filter((company) => company.isActive)
+  );
   if (!jobs.length) return null;
+
+  const notices = buildLiveNotices(errors);
+  if (budgetExceeded) {
+    notices.push("Some providers exceeded the refresh budget and will retry on next load.");
+  }
 
   return {
     companies: companyConfig,
@@ -328,9 +346,24 @@ async function loadLiveRecords() {
       generatedAt: new Date().toISOString(),
       freshnessMinutes: 0,
       usedFallback: false,
-      notices: buildLiveNotices(errors)
+      notices
     }
   };
+}
+
+async function loadLiveRecords() {
+  const now = Date.now();
+  const cache = globalThis.__talentfluxLiveCache;
+  if (cache && cache.expiresAt > now && cache.payload) {
+    return cache.payload;
+  }
+
+  const payload = await runLiveFetch();
+  globalThis.__talentfluxLiveCache = {
+    expiresAt: now + LIVE_CACHE_TTL_MS,
+    payload
+  };
+  return payload;
 }
 
 export async function loadCohortSnapshot(filters?: Partial<DashboardFilters>) {
