@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "vercel",
+    "name": "Vercel",
+    "provider": "greenhouse",
+    "providerToken": "vercel",
+    "websiteUrl": "https://vercel.com",
+    "careersUrl": "https://boards.greenhouse.io/vercel",
+    "sector": "AI Developer Platform",
+    "isActive": true
+  },
+  {
+    "slug": "datadog",
+    "name": "Datadog",
+    "provider": "greenhouse",
+    "providerToken": "datadog",
+    "websiteUrl": "https://www.datadoghq.com",
+    "careersUrl": "https://boards.greenhouse.io/datadog",
+    "sector": "Observability",
+    "isActive": true
+  },
+  {
+    "slug": "figma",
+    "name": "Figma",
+    "provider": "greenhouse",
+    "providerToken": "figma",
+    "websiteUrl": "https://www.figma.com",
+    "careersUrl": "https://boards.greenhouse.io/figma",
+    "sector": "Design Collaboration",
+    "isActive": true
+  },
+  {
+    "slug": "stripe",
+    "name": "Stripe",
+    "provider": "greenhouse",
+    "providerToken": "stripe",
+    "websiteUrl": "https://stripe.com",
+    "careersUrl": "https://boards.greenhouse.io/stripe",
+    "sector": "Payments Infrastructure",
+    "isActive": true
+  },
+  {
+    "slug": "cloudflare",
+    "name": "Cloudflare",
+    "provider": "greenhouse",
+    "providerToken": "cloudflare",
+    "websiteUrl": "https://www.cloudflare.com",
+    "careersUrl": "https://boards.greenhouse.io/cloudflare",
+    "sector": "Cloud Infrastructure",
+    "isActive": true
+  },
+  {
+    "slug": "hashicorp",
+    "name": "HashiCorp",
+    "provider": "greenhouse",
+    "providerToken": "hashicorp",
+    "websiteUrl": "https://www.hashicorp.com",
+    "careersUrl": "https://boards.greenhouse.io/hashicorp",
+    "sector": "Infrastructure Automation",
+    "isActive": true
+  }
+]

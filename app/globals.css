@@ -1,0 +1,80 @@
+:root {
+  --background: 220 31% 10%;
+  --foreground: 210 40% 98%;
+  --card: 222 32% 14%;
+  --card-foreground: 210 40% 98%;
+  --border: 220 20% 25%;
+  --muted: 220 23% 18%;
+  --muted-foreground: 215 20% 72%;
+  --primary: 188 92% 53%;
+  --primary-foreground: 220 35% 10%;
+  --secondary: 31 97% 72%;
+  --secondary-foreground: 220 35% 10%;
+  --accent: 258 80% 68%;
+  --accent-foreground: 220 35% 10%;
+  --success: 145 63% 49%;
+  --warning: 39 96% 58%;
+  --danger: 358 82% 65%;
+  --font-display: "Avenir Next", "Satoshi", "Helvetica Neue", "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", "IBM Plex Mono", "Menlo", "Monaco", monospace;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(34, 211, 238, 0.12), transparent 30%),
+    radial-gradient(circle at 80% 10%, rgba(249, 115, 22, 0.1), transparent 28%),
+    linear-gradient(180deg, rgba(10, 15, 31, 0.96), rgba(7, 10, 23, 1));
+  min-height: 100vh;
+  font-family: var(--font-display);
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.35);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply tracking-tight text-balance;
+  }
+
+  p {
+    @apply text-pretty;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8;
+  }
+
+  .panel {
+    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-panel;
+  }
+
+  .panel-glow {
+    @apply rounded-2xl border border-cyan-300/20 bg-slate-950/70 shadow-glow;
+  }
+
+  .grid-overlay {
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+}
