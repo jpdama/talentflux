@@ -1,6 +1,6 @@
-# TalentPulse
+# TalentFlux
 
-TalentPulse is a public competitor hiring intelligence dashboard for AI/SaaS companies. It ingests live public job-board data from Greenhouse and Lever, stores historical snapshots in Postgres, computes strategy signals like AI hiring share and geographic expansion, and presents them in a polished Next.js dashboard.
+TalentFlux is a public competitor hiring intelligence dashboard for AI and software companies. It ingests live public job-board data from Greenhouse and Lever, stores historical snapshots in Postgres, computes strategy signals like AI hiring share and geographic expansion, and presents them in a polished Next.js dashboard.
 
 ## Features
 

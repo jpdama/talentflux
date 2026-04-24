@@ -5,14 +5,14 @@ import { hasDatabase } from "@/db/client";
 import { runIngest } from "@/lib/ingest/run-ingest";
 
 declare global {
-  var __talentpulseRefresh: { lastRunAt?: number } | undefined;
+  var __talentfluxRefresh: { lastRunAt?: number } | undefined;
 }
 
 function getRefreshStore() {
-  if (!global.__talentpulseRefresh) {
-    global.__talentpulseRefresh = {};
+  if (!global.__talentfluxRefresh) {
+    global.__talentfluxRefresh = {};
   }
-  return global.__talentpulseRefresh;
+  return global.__talentfluxRefresh;
 }
 
 export async function POST() {

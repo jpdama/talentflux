@@ -6,8 +6,8 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 
 export const metadata: Metadata = {
-  title: "TalentPulse",
-  description: "Public competitor hiring intelligence for AI/SaaS teams."
+  title: "TalentFlux",
+  description: "Public hiring intelligence and competitor momentum tracking for AI and software teams."
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
           <div className="fixed bottom-5 right-5 hidden rounded-full border border-white/10 bg-slate-950/70 px-3 py-2 text-xs text-slate-300 backdrop-blur md:flex">
             Live intelligence by{" "}
             <Link className="ml-1 text-cyan-300 hover:text-cyan-200" href="/dashboard">
-              TalentPulse
+              TalentFlux
             </Link>
           </div>
         </div>

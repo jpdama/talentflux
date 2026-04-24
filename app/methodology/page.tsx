@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 const sections = [
   {
     title: "Data sources",
-    body: "TalentPulse uses public Greenhouse Job Board and Lever Postings APIs. No gated or paid enterprise data is required for the core product. Historical context is created through repeated snapshot ingestion into Postgres."
+    body: "TalentFlux uses public Greenhouse Job Board and Lever Postings APIs. No gated or paid enterprise data is required for the core product. Historical context is created through repeated snapshot ingestion into Postgres."
   },
   {
     title: "Normalization",
@@ -29,7 +29,7 @@ export default function MethodologyPage() {
     <div className="shell space-y-10 py-10">
       <SectionHeading
         eyebrow="Methodology"
-        title="How TalentPulse turns public jobs into business intelligence"
+        title="How TalentFlux turns public jobs into business intelligence"
         description="The point of the product is not to mirror a job board. It is to convert public hiring activity into an explainable strategy readout."
       />
       <div className="grid gap-6 lg:grid-cols-2">
@@ -53,7 +53,7 @@ export default function MethodologyPage() {
         </pre>
         <p className="text-sm leading-7 text-slate-300">
           Forecasting uses a simple linear regression over the most recent visible history. When a company lacks enough
-          historical points, TalentPulse suppresses precision claims and falls back to a conservative estimate.
+          historical points, TalentFlux suppresses precision claims and falls back to a conservative estimate.
         </p>
       </Card>
     </div>

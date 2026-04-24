@@ -1,6 +1,6 @@
-# TalentPulse Methodology
+# TalentFlux Methodology
 
-TalentPulse transforms public hiring data into competitor strategy signals.
+TalentFlux transforms public hiring data into competitor strategy signals.
 
 ## Data Collection
 
@@ -26,7 +26,7 @@ Each posting is converted into a canonical record:
 
 ## Metrics
 
-TalentPulse calculates:
+TalentFlux calculates:
 
 - open jobs
 - new jobs in 7 days

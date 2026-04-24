@@ -1,4 +1,4 @@
-name: Ingest TalentPulse Data
+name: Ingest TalentFlux Data
 
 on:
   workflow_dispatch:

@@ -58,5 +58,65 @@
     "careersUrl": "https://boards.greenhouse.io/hashicorp",
     "sector": "Infrastructure Automation",
     "isActive": true
+  },
+  {
+    "slug": "airtable",
+    "name": "Airtable",
+    "provider": "greenhouse",
+    "providerToken": "airtable",
+    "websiteUrl": "https://www.airtable.com",
+    "careersUrl": "https://boards.greenhouse.io/airtable",
+    "sector": "Collaborative Work Management",
+    "isActive": true
+  },
+  {
+    "slug": "asana",
+    "name": "Asana",
+    "provider": "greenhouse",
+    "providerToken": "asana",
+    "websiteUrl": "https://asana.com",
+    "careersUrl": "https://boards.greenhouse.io/asana",
+    "sector": "Work Management",
+    "isActive": true
+  },
+  {
+    "slug": "databricks",
+    "name": "Databricks",
+    "provider": "greenhouse",
+    "providerToken": "databricks",
+    "websiteUrl": "https://www.databricks.com",
+    "careersUrl": "https://boards.greenhouse.io/databricks",
+    "sector": "Data and AI Platform",
+    "isActive": true
+  },
+  {
+    "slug": "dropbox",
+    "name": "Dropbox",
+    "provider": "greenhouse",
+    "providerToken": "dropbox",
+    "websiteUrl": "https://www.dropbox.com",
+    "careersUrl": "https://boards.greenhouse.io/dropbox",
+    "sector": "Cloud Collaboration",
+    "isActive": true
+  },
+  {
+    "slug": "hubspot",
+    "name": "HubSpot",
+    "provider": "greenhouse",
+    "providerToken": "hubspotjobs",
+    "websiteUrl": "https://www.hubspot.com",
+    "careersUrl": "https://boards.greenhouse.io/hubspotjobs",
+    "sector": "CRM Platform",
+    "isActive": true
+  },
+  {
+    "slug": "mongodb",
+    "name": "MongoDB",
+    "provider": "greenhouse",
+    "providerToken": "mongodb",
+    "websiteUrl": "https://www.mongodb.com",
+    "careersUrl": "https://boards.greenhouse.io/mongodb",
+    "sector": "Developer Data Platform",
+    "isActive": true
   }
 ]

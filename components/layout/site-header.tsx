@@ -8,11 +8,11 @@ export function SiteHeader() {
       <div className="shell flex h-16 items-center justify-between gap-6">
         <Link href="/" className="flex items-center gap-3 text-sm text-slate-100">
           <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 via-sky-400 to-orange-300 font-semibold text-slate-950">
-            TP
+            TF
           </div>
           <div>
-            <div className="font-semibold tracking-wide">TalentPulse</div>
-            <div className="text-xs text-slate-400">Hiring intelligence for AI/SaaS</div>
+            <div className="font-semibold tracking-wide">TalentFlux</div>
+            <div className="text-xs text-slate-400">Hiring intelligence for AI and software</div>
           </div>
         </Link>
 

@@ -5,7 +5,7 @@ import { closeDb, getDb } from "@/db/client";
 
 async function main() {
   const db = getDb();
-  const migrationPath = path.join(process.cwd(), "db", "migrations", "0000_talentpulse.sql");
+  const migrationPath = path.join(process.cwd(), "db", "migrations", "0000_talentflux.sql");
   const migrationSql = await fs.readFile(migrationPath, "utf8");
   const statements = migrationSql
     .split(/;\s*\n/g)

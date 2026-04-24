@@ -614,6 +614,73 @@ const sampleSeedByCompany: Record<string, JobSeed[]> = {
   ]
 };
 
+const fallbackJobSeeds: JobSeed[] = [
+  {
+    title: "Senior AI Platform Engineer",
+    department: "Engineering",
+    locationText: "Remote - United States",
+    country: "United States",
+    region: "North America",
+    workplaceType: "remote",
+    employmentType: "Full-time",
+    roleFamily: "AI / Data",
+    seniorityBand: "Senior",
+    isAiRole: true,
+    isGtmRole: false,
+    skills: ["Python", "ML Systems", "Platform"],
+    descriptionText: "Build production systems for AI-enabled product workflows.",
+    ageDays: 4
+  },
+  {
+    title: "Enterprise Account Executive",
+    department: "Sales",
+    locationText: "New York, NY",
+    country: "United States",
+    region: "North America",
+    workplaceType: "hybrid",
+    employmentType: "Full-time",
+    roleFamily: "Sales / GTM",
+    seniorityBand: "Senior",
+    isAiRole: false,
+    isGtmRole: true,
+    skills: ["Enterprise Sales", "Pipeline", "SaaS"],
+    descriptionText: "Expand enterprise pipeline and strategic account coverage.",
+    ageDays: 7
+  },
+  {
+    title: "Product Manager, Platform",
+    department: "Product",
+    locationText: "San Francisco, CA",
+    country: "United States",
+    region: "North America",
+    workplaceType: "hybrid",
+    employmentType: "Full-time",
+    roleFamily: "Product",
+    seniorityBand: "Senior",
+    isAiRole: false,
+    isGtmRole: false,
+    skills: ["Product Strategy", "Roadmapping", "Analytics"],
+    descriptionText: "Shape platform priorities across developer and operator workflows.",
+    ageDays: 10
+  },
+  {
+    title: "People Partner",
+    department: "People",
+    locationText: "London, UK",
+    country: "United Kingdom",
+    region: "Europe",
+    workplaceType: "hybrid",
+    employmentType: "Full-time",
+    roleFamily: "People / Talent",
+    seniorityBand: "Manager",
+    isAiRole: false,
+    isGtmRole: false,
+    skills: ["HRBP", "Org Design", "Hiring"],
+    descriptionText: "Support organizational growth and international hiring plans.",
+    ageDays: 12
+  }
+];
+
 const trendProfiles: Record<string, { start: number; drift: number; aiBias: number }> = {
   vercel: { start: 18, drift: 0.25, aiBias: 0.2 },
   datadog: { start: 22, drift: 0.18, aiBias: 0.14 },
@@ -654,14 +721,18 @@ function buildSampleJob(company: CompanySeed, seed: JobSeed, index: number): Can
 
 export function buildSampleJobs() {
   return companyConfig.flatMap((company) =>
-    (sampleSeedByCompany[company.slug] ?? []).map((seed, index) => buildSampleJob(company, seed, index))
+    (sampleSeedByCompany[company.slug] ?? fallbackJobSeeds).map((seed, index) => buildSampleJob(company, seed, index))
   );
 }
 
 export function buildSampleHistory(jobs: CanonicalJob[]) {
   return companyConfig.flatMap((company) => {
     const companyJobs = jobs.filter((job) => job.companySlug === company.slug);
-    const profile = trendProfiles[company.slug];
+    const profile = trendProfiles[company.slug] ?? {
+      start: Math.max(10, companyJobs.length + 8),
+      drift: 0.08,
+      aiBias: 0.1
+    };
     const aiJobs = companyJobs.filter((job) => job.isAiRole).length;
     const gtmJobs = companyJobs.filter((job) => job.isGtmRole).length;
     const leadershipJobs = companyJobs.filter((job) => job.roleFamily === "Leadership").length;

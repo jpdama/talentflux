@@ -1,8 +1,8 @@
 {
-  "name": "talentpulse",
+  "name": "talentflux",
   "version": "0.1.0",
   "private": true,
-  "description": "Competitor hiring intelligence dashboard for AI/SaaS companies.",
+  "description": "TalentFlux hiring intelligence dashboard for AI and software companies.",
   "engines": {
     "node": ">=18.18.0"
   },
