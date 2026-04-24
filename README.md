@@ -1,150 +1,94 @@
 # TalentFlux
 
-TalentFlux is a public competitor hiring intelligence dashboard for AI and software companies. It ingests live public job-board data from Greenhouse and Lever, stores historical snapshots in Postgres, computes strategy signals like AI hiring share and geographic expansion, and presents them in a polished Next.js dashboard.
+TalentFlux is a public hiring intelligence dashboard for software companies. It tracks public Greenhouse and Lever postings, stores snapshots in Neon Postgres, computes hiring momentum and AI-share signals, and publishes a production Next.js dashboard.
 
-- **Live dashboard:** https://talentpulse-psi.vercel.app
-- **One-page summary:** [docs/one-page-summary.md](docs/one-page-summary.md)
-- **Methodology:** [docs/methodology.md](docs/methodology.md)
+Production:
 
-## Features
+- App: [talentflux.vercel.app](https://talentflux.vercel.app)
+- Repo: [github.com/jpdama/talentflux](https://github.com/jpdama/talentflux)
+- Methodology: [docs/methodology.md](docs/methodology.md)
 
-- Live and near-real-time competitor job tracking
-- Historical trend analysis and hiring momentum scoring
-- AI-role detection, role-family classification, and geo expansion alerts
-- Grounded AI summaries with deterministic fallback
-- Public dashboard, company drill-down pages, CSV export, and methodology page
+## What It Does
 
-## Architecture Summary
+- Tracks live openings across a curated software cohort
+- Scores momentum, AI-share, leadership, remote, and geo-expansion signals
+- Publishes a dashboard, company pages, methodology page, and CSV export
+- Falls back cleanly from Neon to live provider reads, then to bundled sample data
 
-Next.js serves the public dashboard and API routes. GitHub Actions runs scheduled ingestion jobs that fetch public provider APIs, normalize the data, and store both current jobs and daily company metrics in Neon Postgres. The app reads from Postgres when available, otherwise falls back to live provider reads and then bundled sample data.
+## Stack
 
-## Tech Stack
-
-- Next.js 15 App Router
+- Next.js 15
 - TypeScript
 - Tailwind CSS
 - Recharts
-- TanStack Table
 - Neon Postgres
-- Drizzle ORM + migrations
+- Drizzle ORM
 - GitHub Actions
-- OpenAI Responses API for optional summaries
 
-## Installation
+## Local Setup
 
-### Prerequisites
+Requirements:
 
-- Node.js `>= 18.18.0`
-- npm `>= 9`
-- A Postgres database if you want persisted history
+- Node.js `18.18+`
+- npm `9+`
 
-### Setup
-
-1. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-2. Copy the example environment file:
-
-   ```bash
-   cp .env.example .env.local
-   ```
-
-3. If you are using Postgres, update `DATABASE_URL` in `.env.local`.
-
-4. Run migrations:
-
-   ```bash
-   npm run db:migrate
-   ```
-
-5. Seed the tracked company cohort:
-
-   ```bash
-   npm run seed:companies
-   ```
-
-6. Run the first ingest:
-
-   ```bash
-   npm run ingest
-   ```
-
-7. Start the app:
-
-   ```bash
-   npm run dev
-   ```
-
-If you do not configure a database, the app still works by falling back to live provider reads and then bundled sample data.
-
-## Environment Variables
-
-| Variable | Required | Description |
-| --- | --- | --- |
-| `DATABASE_URL` | No | Postgres connection string for persisted history |
-| `NEXT_PUBLIC_SITE_URL` | Yes | Public app base URL |
-| `OPENAI_API_KEY` | No | Enables AI-generated summaries |
-| `OPENAI_MODEL` | No | Defaults to `gpt-4.1-mini` |
-| `LIVE_REFRESH_WINDOW_MINUTES` | No | Throttle window for manual refresh |
-| `INGEST_COHORT` | No | Reserved for future cohort switching |
-
-## Local Development
-
-- `npm run dev` starts the Next.js dev server
-- `npm run ingest` fetches and persists the latest public jobs
-- `npm run summaries` re-runs the ingest pipeline and refreshes summaries
-- `npm run test` runs unit tests
-- `npm run test:e2e` runs Playwright smoke tests
-
-## Deployment
-
-### Vercel + Neon
-
-1. Create a Neon Postgres database.
-2. Add the environment variables in Vercel.
-3. Deploy the repo to Vercel.
-4. Add the same secrets to GitHub Actions.
-5. Run `npm run db:migrate`, `npm run seed:companies`, and `npm run ingest`.
-6. Verify the public URL.
-
-### Build Commands
+Run locally:
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run db:migrate
 npm run seed:companies
-npm run build
+npm run ingest
+npm run dev
 ```
 
-### Runtime Commands
+If `DATABASE_URL` is unset, the app still works using live provider reads and then sample data.
+
+## Environment Variables
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | No | Neon/Postgres connection string |
+| `NEXT_PUBLIC_SITE_URL` | Yes | Public app URL |
+| `OPENAI_API_KEY` | No | Enables AI-generated summaries |
+| `OPENAI_MODEL` | No | Summary model override |
+| `LIVE_REFRESH_WINDOW_MINUTES` | No | Manual refresh throttle window |
+
+## Core Commands
 
 ```bash
-npm run start
+npm run dev
+npm run build
+npm run test
+npm run ingest
+npm run summaries
+```
+
+## Deployment
+
+TalentFlux is deployed on Vercel with Neon Postgres.
+
+Recommended order:
+
+1. Add environment variables in Vercel.
+2. Run database migrations.
+3. Seed the tracked company cohort.
+4. Run ingest.
+5. Verify the production URL.
+
+Build command:
+
+```bash
+npm run build
 ```
 
 ## Scheduled Ingestion
 
-The repository includes `.github/workflows/ingest.yml`, which runs every 4 hours and can also be triggered manually. It:
+`.github/workflows/ingest.yml` runs every 4 hours and can also be triggered manually. It installs dependencies, runs migrations, seeds companies, and executes the ingest pipeline.
 
-1. Installs dependencies
-2. Runs database migrations
-3. Seeds the company list
-4. Executes the ingest pipeline
+## Notes
 
-## Limitations
-
-- The product depends on public job-board availability and the metadata those APIs expose.
-- Historical value improves over time as the snapshot table accumulates more daily runs.
-- AI summaries are optional and gracefully degrade to deterministic summaries without an API key.
-- The local environment used for this scaffold was on Node `18.12.1`; upgrade to `18.18+` before installing dependencies.
-
-## Future Improvements
-
-- Saved watchlists and user accounts
-- Email alerts and digests
-- Custom competitor cohorts
-- More hiring providers beyond Greenhouse and Lever
-- Premium API access for export automation
+- Signal quality depends on public provider API availability and metadata quality.
+- Historical quality improves as more daily snapshots accumulate.
+- AI summaries are optional; deterministic summaries remain available without an API key.
